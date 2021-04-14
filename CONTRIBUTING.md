@@ -14,7 +14,7 @@ text
 
 ---
 
-This project is born as a collection of macros to be used in [Fluidd](https://github.com/cadriel/fluidd), and therefore I integrate *some* of Cadriel's contributing criterias on this repo:
+This project is born as a collection of macros to be used in [Fluidd](https://github.com/cadriel/fluidd), and therefore I integrate *some* of Cadriel's contributing criteria on this repo:
 
 - A clean develop is preferred. This means squashing, and rebasing your feature branches prior to merge.
 - PRs should be made off a branch other than develop or main.
