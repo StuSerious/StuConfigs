@@ -26,5 +26,5 @@ This project is born as a collection of macros to be used in [Fluidd](https://gi
   Some description.
   ```
 
-- By committing, you acknowledge that you agree to the [developer certificate of origin](/developer-certificate-of-origin).
+- By committing, you acknowledge that you agree to the [developer certificate of origin](.github/developer-certificate-of-origin).
 This must contain your name and a current email address.
