@@ -1,0 +1,52 @@
+[gcode_macro CG28]
+description: Homed axes-aware G28! 
+
+gcode:
+
+  {% set hAxes = printer.toolhead.homed_axes %}
+
+  {% if hAxes == "" %}
+    RESPOND MSG="CG28: homing all axes..."
+    G28 X Y Z
+    RESPOND MSG="CG28: done!"
+  {% endif %}
+
+  {% if hAxes == "x" %}
+    RESPOND MSG="CG28: homing Y & Z..."
+    G28 Y Z
+    RESPOND MSG="CG28: done!"
+  {% endif %}
+
+  {% if hAxes == "y" %}
+    RESPOND MSG="CG28: homing X & Z..."
+    G28 X Z
+    RESPOND MSG="CG28: done!"
+  {% endif %}
+
+  {% if hAxes == "z" %}
+    RESPOND MSG="CG28: homing X & Y..."
+    G28 X Y
+    RESPOND MSG="CG28: done!"
+  {% endif %}
+
+  {% if hAxes == "xy" %}
+    RESPOND MSG="CG28: homing Z..."
+    G28 Z
+    RESPOND MSG="CG28: done!"
+  {% endif %}
+
+  {% if hAxes == "xz" %}
+    RESPOND MSG="CG28: homing Y..."
+    G28 Y
+    RESPOND MSG="CG28: done!"
+  {% endif %}
+
+  {% if hAxes == "yz" %}
+    RESPOND MSG="CG28: homing X..."
+    G28 X
+    RESPOND MSG="CG28: done!"
+  {% endif %}
+
+  {% if hAxes == "xyz" %}
+    RESPOND MSG="CG28: all axes already homed!"
+  {% endif %}
