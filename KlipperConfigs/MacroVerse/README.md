@@ -7,4 +7,4 @@
 - this macro will: (brief description)
 
 ## TESTED:
-- on: (hardware guaranteed to work)
+- on: (hardware guaranteed to work) | by: 
