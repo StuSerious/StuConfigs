@@ -1,0 +1,14 @@
+[gcode_macro CG28]
+description: Better homing, axis aware
+
+gcode:
+
+  {% set hAxes = printer.toolhead.homed_axes %}
+  RESPOND MSG="{hAxes}"
+
+  {% if %}
+
+
+#  {% if hAxes != "xyz" %}
+#    G28
+#  {% endif %}

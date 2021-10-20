@@ -1,0 +1,35 @@
+#>>>>> ACTIVATE EXTRUDER 0
+[gcode_macro T0]
+gcode:
+    SET_GCODE_OFFSET X=0
+    ACTIVATE_EXTRUDER EXTRUDER=extruder
+    SAVE_VARIABLE VARIABLE=currentextruder VALUE='"extruder"'
+    RESPOND MSG="Active Tool is now T0"
+
+#>>>>>
+[gcode_macro T_START0]
+gcode:
+    RESPOND MSG="Starting T0 routine..."
+
+#>>>>>
+[gcode_macro T_FINISH0]
+gcode:
+    RESPOND MSG="Ending T0 routine..."
+
+#>>>>> ACTIVATE EXTRUDER 1
+[gcode_macro T1]
+gcode:
+    SET_GCODE_OFFSET X=-15.3
+    ACTIVATE_EXTRUDER EXTRUDER=extruder1
+    SAVE_VARIABLE VARIABLE=currentextruder VALUE='"extruder1"'
+    RESPOND MSG="Active Tool is now T1"
+
+#>>>>>
+[gcode_macro T_START1]
+gcode:
+    RESPOND MSG="Starting T1 routine..."
+
+#>>>>>
+[gcode_macro T_FINISH1]
+gcode:
+    RESPOND MSG="Ending T1 routine..."

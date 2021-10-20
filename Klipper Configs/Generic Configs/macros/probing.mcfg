@@ -1,0 +1,65 @@
+#>>>>> DEPLOY PROBE
+[gcode_macro DEPLOY]
+gcode:
+    BLTOUCH_DEBUG COMMAND=pin_down
+
+#>>>>> STOW PROBE
+[gcode_macro STOW]
+gcode:
+    BLTOUCH_DEBUG COMMAND=pin_up
+
+#>>>>> QUERY PROBE STATUS
+[gcode_macro QUERY]
+gcode:
+    QUERY_PROBE
+
+#>>>>> PROBE ACCURACY TEST
+[gcode_macro REPEATABILITY]
+gcode:
+    CG28
+    G0 Z5
+    G0 X155 Y155
+    G0 Z0
+    PROBE_ACCURACY
+
+#>----------------------------------------------------------------------------
+#>>>>> LEVELLING MACROS
+#>>>>> BED LEVELLING 
+[gcode_macro MMBL]
+gcode:
+    BED_MESH_CLEAR              #clear any loaded mesh
+    G28                         #auto-home
+    BED_MESH_CALIBRATE          #run probing
+    BED_MESH_PROFILE SAVE=LP    #save the mesh
+
+[gcode_macro MMBL/Z-05]
+gcode: 
+    TESTZ Z=-0.5
+
+[gcode_macro MMBL/Z+05]
+gcode: 
+    TESTZ Z=0.5
+
+[gcode_macro MMBL/Z-01]
+gcode: 
+    TESTZ Z=-0.1
+
+[gcode_macro MMBL/Z+01]
+gcode: 
+    TESTZ Z=0.1
+
+[gcode_macro MMBL/Z-005]
+gcode: 
+    TESTZ Z=-0.05
+
+[gcode_macro MMBL/Z+005]
+gcode: 
+    TESTZ Z=0.05
+
+[gcode_macro MMBL/Z-001]
+gcode: 
+    TESTZ Z=-0.01
+
+[gcode_macro MMBL/Z+001]
+gcode: 
+    TESTZ Z=0.01

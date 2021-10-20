@@ -1,0 +1,5 @@
+[gcode_macro CG28]
+gcode:
+  {% if printer.toolhead.homed_axes != "xyz" %}
+    G28
+  {% endif %}

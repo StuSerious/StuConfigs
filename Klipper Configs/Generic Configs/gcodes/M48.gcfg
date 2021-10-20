@@ -1,0 +1,22 @@
+[gcode_macro M48]
+description: repeatedly probes the center of the bed and reports accuracy figures.
+
+variable_P: 0
+variable_X: 0
+variable_Y: 0
+
+gcode:
+  
+  RESPOND MSG="Alright, moving to probe point..."
+
+  {% set cfc = printer.configfile.config %}
+  #{% set nProbes = params.P|int %}
+  #{% set xPos = params.X|int %}
+  {% set xMid = cfc["stepper_x"]["position_max"]|int / 2 %}
+  #{% set yPos = params.Y|int %}
+  {% set yMid = cfc["stepper_y"]["position_max"]|int / 2 %}
+
+  RESPOND MSG="{xMid}, {yMid}"
+
+  SAVE_GCODE_STATE NAME=my_move_up_state
+  PROBE_ACCURACY [PROBE_SPEED=<mm/s>] [SAMPLES=<count>] [SAMPLE_RETRACT_DIST=<mm>]

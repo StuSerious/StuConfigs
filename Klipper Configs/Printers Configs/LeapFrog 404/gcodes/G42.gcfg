@@ -1,0 +1,15 @@
+[gcode_macro G42]
+description: Moves to a specific point in the mesh coordinate sistem
+
+variable_F: 0
+variable_I: 0
+variable_J: 0
+
+gcode:
+
+  RESPOND MSG="OK, just one sec!"
+
+  {% set feedRate = params.F|int %}
+  {% set iPos = params.I|int %}
+  {% set jPos = params.J|int %}
+

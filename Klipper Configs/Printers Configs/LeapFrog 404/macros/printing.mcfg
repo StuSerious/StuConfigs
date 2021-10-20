@@ -1,0 +1,64 @@
+#>>>>> PRINT START MACRO <<<<<#
+[gcode_macro THE_BEGINNING]
+gcode:
+    {% set svv = printer.save_variables.variables %}
+    ACTIVATE_EXTRUDER extruder={svv.currentextruder}
+    CG28                    #home all axes
+
+#>>>>> PAUSE PRINTING <<<<<#
+[gcode_macro PAUSE]
+rename_existing: BASE_PAUSE
+default_parameter_X: 0      #edit to your park position
+default_parameter_Y: 0      #edit to your park position
+default_parameter_Z: 10     #edit to your park position
+default_parameter_E: 1      #edit to your retract length
+gcode:
+    SAVE_GCODE_STATE NAME=PAUSE_state
+    BASE_PAUSE
+    G91
+    G1 E-{E} F2100
+    G1 Z{Z}
+    G90
+    G1 X{X} Y{Y} F6000
+
+#>>>>> RESUME PRINTING <<<<<#
+[gcode_macro RESUME]
+rename_existing: BASE_RESUME
+default_parameter_E: 1       #edit to your retract length
+gcode:
+    G91
+    G1 E{E} F2100
+    G90
+    RESTORE_GCODE_STATE NAME=PAUSE_state MOVE=1
+    BASE_RESUME
+
+#>>>>> CANCEL PRINT
+[gcode_macro CANCEL_PRINT]
+rename_existing: BASE_CANCEL_PRINT
+gcode:
+    TURN_OFF_HEATERS
+    CLEAR_PAUSE
+    SDCARD_RESET_FILE
+    BASE_CANCEL_PRINT
+
+#>>>>> PRINT END MACRO <<<<<#
+[gcode_macro THE_END]
+gcode:
+    TURN_OFF_HEATERS
+    SAVE_GCODE_STATE NAME=END_state
+    M83             #set relative extrusion
+    G92 E0          #reset extrusion amount
+    G1 E-2 F4000    #retract 2mm
+    {% if printer.toolhead.position.z|float + 30 >= printer.configfile.config["stepper_z"]["position_max"]|float %}
+    G90             #set absolute
+    G1 Z{printer.configfile.config["stepper_z"]["position_max"]|float} F1000 #Move tool
+    {% else %}
+    G91             #set relative
+    G1 Z30 F1000    #move Z axis up 30mm
+    {% endif %}
+    RESTORE_GCODE_STATE NAME=END_state
+    G1 X130 Y270 F24000     #park tool at back of printer
+    M107
+    #SET_GCODE_OFFSET Z=0    #reset whatever babystepping you have done
+    M84                     #disable motors
+    CLEAR_PAUSE             #clear whatever PAUSE state you may have if you have it
