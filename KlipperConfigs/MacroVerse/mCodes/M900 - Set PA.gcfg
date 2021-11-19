@@ -1,0 +1,38 @@
+#>>>>> SET PRESSURE ADVANCE VIA SLICER <<<<<#
+[gcode_macro M900]
+description: interprets Cura LA values to use with Klippy's PA.
+
+variable_K:0
+variable_T:0
+
+gcode:
+
+  {% set svv = printer.save_variables.variables %}                            #>>> set the usual shortcut
+  {% set ext = 'ext' %}                                                       #>>> set name for the selection variable
+  
+  {% if 'K' in params %}                                                      #>>> check to see that the command is all there
+    {% if 'T' in params %}                                                    #>>> if a tool is specified, make sure to apply that to PA
+      {% set tool = params.T|int %}                                           #>>> pull T into the 'tool' variable
+  
+      {% if tool == 0 %}                                                      #>>> check which tool is being sent in
+        {% set ext = 'extruder' %}                                            #>>> if T0, call it 'extruder' 
+          RESPOND MSG="M900: set PA for T{tool} - {ext}."                     #>>> get a confirmation msg
+  
+      {% elif tool == 1 %}                                                    #>>> check which tool is being sent in
+        {% set ext = 'extruder1' %}                                           #>>> if T1, call it 'extruder1'
+          RESPOND MSG="M900: set PA for T{tool} - {ext}."                     #>>> get a confirmation msg
+  
+      {% endif %} 
+        SET_PRESSURE_ADVANCE EXTRUDER={ext} ADVANCE={params.K|float}          #>>> actually set the interpreted command
+  
+    {% else %}                                                                #>>> when no T var is set, default to current
+      RESPOND MSG="M900: set PA without T var for: {svv.currentextruder}."    #>>> get a confirmation msg
+      SET_PRESSURE_ADVANCE ADVANCE={params.K|float}                           #>>> actually set the interpreted command
+  
+    {% endif %}   
+  
+  {% elif 'K' not in params %}                                                #>>> check to see if no K var is provided
+  RESPOND TYPE=error MSG="M900: no K value set!"                              #>>> send out an error when no K value is set
+
+  {% endif %}
+
